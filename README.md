@@ -1,8 +1,8 @@
 <h1>FSUIPCServer</h1>
 
-This Program ist still under development.
+This Program is still under development.
 
-FSUIPCServer ist as Webssocket Server as frontend to FSUIPC.
+FSUIPCServer is as Webssocket Server as frontend to FSUIPC.
 It provides a bidirectional websocket communication between Native Apps, Web-Applications, Arduinos (or something like that)  and FSUIPC.
 Multiple Panels will be supportet.
 
