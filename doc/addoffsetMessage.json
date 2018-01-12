@@ -1,0 +1,35 @@
+﻿[
+  {
+    "taskname": "ADDOFFSET",
+    "OffsetMessage": {
+      "panel": "lightspanel",
+      "offsetname": "LTS_TaxiSw",
+      "offset": 25850,
+      "type": "byte",
+      "convert": ""
+    }
+  },
+  {
+    "taskname": "ADDOFFSET",
+    "OffsetMessage": {
+      "panel": "lightspanel",
+      "offsetname": "lights",
+      "offset": 3340,
+      "type": "BitArray",
+      "convert": "lightList"
+    }
+  }
+]
+
+{
+  "taskname": "GETPANELITEMS",
+  "panelname": "lightspanel"
+}
+,
+
+{
+  "taskname": "SETSPECIFICVALUE",
+  "offsetname": "LTS_TaxiSw",
+  "value": "1",
+  
+}

@@ -102,17 +102,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="errormessage.cs" />
     <Compile Include="fsuipcconnector.cs" />
     <Compile Include="offsetmessage.cs" />
     <Compile Include="fsxConverter.cs" />
+    <Compile Include="responselist.cs" />
     <Compile Include="wa_task.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Chat.cs" />
     <Compile Include="fsuipchandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="doc\addoffsetMessage.json" />
     <None Include="packages.config" />
     <None Include="Public\index.html" />
     <None Include="Public\Js\echotest.js" />
@@ -128,5 +130,6 @@
     <Content Include="dll\FSUIPCClient.dll" />
     <Content Include="dll\FSUIPCClient.xml" />
     <Content Include="dll\websocket-sharp.dll" />
+    <Content Include="test\websocket.html" />
   </ItemGroup>
 </Project>

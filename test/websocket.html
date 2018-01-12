@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>WebSocket Test</title>
+<script language="javascript" type="text/javascript">
+
+  var wsUri = "ws://localhost:4649/Echo";
+  var output;
+
+
+    var addlight = '{ "taskname": "ADDOFFSET", "OffsetMessage": { "panel": "lightspanel", "offsetname": "LTS_TaxiSw", "offset": 0x64FA, "type": "byte" } }';
+    var o1 = '{ "taskname": "ADDOFFSET", "OffsetMessage": { "panel": "performance", "offsetname": "iairspeed", "offset": 700, "type": "int", "convert": "fsxairspeed2knots" } }';
+    var o2 = '{ "taskname": "ADDOFFSET", "OffsetMessage": { "panel": "performance", "offsetname": "tairspeed", "offset": 696, "type": "int", "convert": "fsxairspeed2knots" } }';
+    var o3 = '{ "taskname": "ADDOFFSET", "OffsetMessage": { "panel": "performance", "offsetname": "groundspeed", "offset": 691, "type": "int", "convert": "fsxground2knots" } }';
+    var o4 = '{ "taskname": "ADDOFFSET", "OffsetMessage": { "panel": "performance", "offsetname": "PED_annunParkingBrake", "offset": 0x65A7, "type": "byte" } }';
+
+  
+    
+    var setTaxiLightOff = ' { "taskname": "SETVALUEDIRECT", "offsetname": "69749", "value": "0" }';
+    var setTaxiLightOn = ' { "taskname": "SETVALUEDIRECT", "offsetname": "69749", "value": "1" }';
+
+    var getperformance = '{ "taskname": "GETPANELITEMS", "panelname": "performance" }';
+    var getlightsPanel = '{ "taskname": "GETPANELITEMS", "panelname": "lightspanel" }';
+
+    function init()
+  {
+    output = document.getElementById("output");
+    testWebSocket();
+  }
+
+  function testWebSocket()
+  {
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt) };
+    websocket.onerror = function(evt) { onError(evt) };
+  }
+
+  function onOpen(evt)
+  {
+    writeToScreen("CONNECTED");
+    doSend(addlight);
+    doSend(o1);
+    doSend(o2);
+    doSend(o3);
+    doSend(o4);
+    keepAlive() 
+  }
+
+  function onClose(evt)
+  {
+    writeToScreen("DISCONNECTED");
+  }
+
+  function onMessage(evt)
+  {
+    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    
+  }
+
+  function onError(evt)
+  {
+    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+  }
+
+  function doSend(message)
+  {
+    writeToScreen("SENT: " + message);
+    websocket.send(message);
+  }
+
+  function writeToScreen(message)
+  {
+    var pre = document.createElement("p");
+    pre.style.wordWrap = "break-word";
+    pre.innerHTML = message;
+    output.appendChild(pre);
+  }
+
+
+    var timerID = 0;
+    function keepAlive() {
+        var timeout = 20000;
+        if (websocket.readyState == websocket.OPEN) {
+            websocket.send('{}');
+        }
+        timerId = setTimeout(keepAlive, timeout);
+    }
+    function cancelKeepAlive() {
+        if (timerId) {
+            clearTimeout(timerId);
+        }
+    }
+
+
+  window.addEventListener("load", init, false);
+
+</script>
+
+<h2>FSUIPC Server Tester</h2>
+<div>
+    <ul>
+        <li><a href="javascript:doSend(setTaxiLightOff);">Taxi Light OFF</a></li>
+        <li><a href="javascript:doSend(setTaxiLightOn);">Taxi Light ON</a></li>
+        <li><a href="javascript:doSend(getperformance);">Get Performance</a></li>
+        <li><a href="javascript:doSend(getlightsPanel);">Get Lightspanel</a></li>
+    </ul>
+
+</div>
+<div id="output"></div>
